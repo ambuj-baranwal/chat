@@ -10,6 +10,7 @@ function App() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bookRecommendations, setBookRecommendations] = useState<BookRecommendation[]>([]);
+  const [isFetchingRecommendations, setIsFetchingRecommendations] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -30,6 +31,7 @@ function App() {
       const botMessage: Message = { text: geminiResponse, sender: 'bot' };
       setMessages(prevMessages => [...prevMessages, botMessage]);
 
+      setIsFetchingRecommendations(true);
       const recommendations = await fetchBookRecommendations(input);
       setBookRecommendations(recommendations);
     } catch (error) {
@@ -38,6 +40,7 @@ function App() {
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     } finally {
       setIsLoading(false);
+      setIsFetchingRecommendations(false);
     }
   };
 
@@ -73,9 +76,13 @@ function App() {
             </button>
           </div>
         </div>
-        <aside className="w-1/3 bg-white p-4 overflow-y-auto">
+        <aside className="w-full md:w-1/3 bg-white p-4 overflow-y-auto">
           <h2 className="text-lg font-semibold mb-4">Book Recommendations</h2>
-          <BookCarousel recommendations={bookRecommendations} />
+          {isFetchingRecommendations ? (
+            <p>Loading recommendations...</p>
+          ) : (
+            <BookCarousel recommendations={bookRecommendations} />
+          )}
         </aside>
       </main>
       <div ref={chatEndRef} />

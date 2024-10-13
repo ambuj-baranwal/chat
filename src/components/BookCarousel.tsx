@@ -10,14 +10,14 @@ const BookCarousel: React.FC<BookCarouselProps> = ({ recommendations }) => {
   return (
     <div className="space-y-4">
       {recommendations.map((book, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-md p-4">
-          <div className="flex">
+        <div key={index} className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105">
+          <div className="flex flex-col md:flex-row">
             <img
               src={book.coverImage}
               alt={`Cover of ${book.title}`}
-              className="w-24 h-36 object-cover rounded-md mr-4"
+              className="w-24 h-36 object-cover rounded-md mb-4 md:mb-0 md:mr-4"
             />
-            <div>
+            <div className="flex-1">
               <h3 className="font-semibold text-lg">{book.title}</h3>
               <p className="text-sm text-gray-600">by {book.author}</p>
               <div className="flex items-center mt-1">
