@@ -1,7 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Base styles */
 .markdown-content {
   @apply text-sm;
 }
@@ -40,4 +37,38 @@
 
 .markdown-content pre {
   @apply bg-gray-100 rounded p-2 mb-2 overflow-x-auto;
+}
+
+/* Chat window styles */
+.chat-message-content {
+  @apply flex items-start rounded-lg p-3 max-w-[75%]; /* Fixed max-w-3/4 */
+}
+
+@media (min-width: 1024px) {
+  .flex-grow {
+    @apply flex-grow-0 basis-1/3; /* Fixed flex-basis-1/3 */
+  }
+}
+
+/* Responsive fixes for other components */
+@media (min-width: 640px) {
+  .book-carousel-item {
+    @apply flex-wrap;
+  }
+}
+
+.book-image {
+  @apply w-24 h-36 object-cover rounded-md mr-4;
+}
+
+.book-details {
+  @apply flex-1;
+}
+
+.book-tags {
+  @apply flex flex-wrap mt-2;
+}
+
+.book-tag {
+  @apply bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1 mb-1;
 }

@@ -8,35 +8,32 @@ interface BookCarouselProps {
 
 const BookCarousel: React.FC<BookCarouselProps> = ({ recommendations }) => {
   return (
-    <div className="space-y-4">
+    <div className="book-carousel">
       {recommendations.map((book, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-md p-4 transition-transform transform hover:scale-105">
-          <div className="flex flex-col md:flex-row">
+        <div key={index} className="book-item">
+          <div className="flex">
             <img
               src={book.coverImage}
               alt={`Cover of ${book.title}`}
-              className="w-24 h-36 object-cover rounded-md mb-4 md:mb-0 md:mr-4"
+              className="w-24 h-36 object-cover rounded-md mr-4"
             />
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg">{book.title}</h3>
-              <p className="text-sm text-gray-600">by {book.author}</p>
-              <div className="flex items-center mt-1">
+            <div>
+              <h3 className="book-item-title">{book.title}</h3>
+              <p className="book-item-author">by {book.author}</p>
+              <div className="book-item-rating">
                 <Star className="w-4 h-4 text-yellow-400 mr-1" />
                 <span className="text-sm">{book.rating}</span>
               </div>
               <div className="mt-2">
                 {book.tags.map((tag, tagIndex) => (
-                  <span
-                    key={tagIndex}
-                    className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1 mb-1"
-                  >
+                  <span key={tagIndex} className="book-item-tags">
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-          <p className="text-sm mt-2 line-clamp-3">{book.description}</p>
+          <p className="book-item-description">{book.description}</p>
           <a
             href={book.purchaseLink}
             target="_blank"
