@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Message } from '../types';
 import { User, Bot } from 'lucide-react';
@@ -9,15 +9,8 @@ interface ChatWindowProps {
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading }) => {
-  const endOfMessagesRef = useRef<HTMLDivElement>(null);
-
-  // Scroll to the bottom of the chat window when messages change
-  useEffect(() => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
   return (
-    <div className="flex-grow overflow-y-auto bg-white rounded-lg shadow p-4">
+    <div className="flex-grow overflow-y-auto rounded-lg border bg-card text-card-foreground shadow-sm p-4">
       {messages.map((message, index) => (
         <div
           key={index}
@@ -28,9 +21,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading }) => {
           <div
             className={`flex items-start ${
               message.sender === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-800'
-            } rounded-lg p-3 max-w-[75%] shadow-md`}
+                ? 'bg-blue-600 text-white'
+                : 'bg-muted text-muted-foreground'
+            } rounded-lg p-3 max-w-[75%]`}
           >
             {message.sender === 'user' ? (
               <User className="w-6 h-6 mr-2 flex-shrink-0" />
@@ -45,12 +38,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading }) => {
       ))}
       {isLoading && (
         <div className="flex justify-start mb-4">
-          <div className="bg-gray-200 text-gray-800 rounded-lg p-3 shadow-md">
+          <div className="bg-muted text-muted-foreground rounded-lg p-3">
             <p>Thinking...</p>
           </div>
         </div>
       )}
-      <div ref={endOfMessagesRef} />
     </div>
   );
 };

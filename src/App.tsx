@@ -10,7 +10,6 @@ function App() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [bookRecommendations, setBookRecommendations] = useState<BookRecommendation[]>([]);
-  const [isFetchingRecommendations, setIsFetchingRecommendations] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +30,6 @@ function App() {
       const botMessage: Message = { text: geminiResponse, sender: 'bot' };
       setMessages(prevMessages => [...prevMessages, botMessage]);
 
-      setIsFetchingRecommendations(true);
       const recommendations = await fetchBookRecommendations(input);
       setBookRecommendations(recommendations);
     } catch (error) {
@@ -40,18 +38,17 @@ function App() {
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     } finally {
       setIsLoading(false);
-      setIsFetchingRecommendations(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <header className="bg-blue-600 text-white p-4 flex items-center justify-between">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <header className="border-b bg-card text-card-foreground p-4 flex items-center justify-between shadow">
         <div className="flex items-center">
           <Book className="mr-2" />
           <h1 className="text-xl font-bold">Book Recommender</h1>
         </div>
-        <button className="p-2 rounded-full hover:bg-blue-700">
+        <button className="p-2 rounded-full hover:bg-muted">
           <User />
         </button>
       </header>
@@ -76,13 +73,9 @@ function App() {
             </button>
           </div>
         </div>
-        <aside className="w-full md:w-1/3 bg-white p-4 overflow-y-auto">
+        <aside className="w-1/3 bg-card text-card-foreground p-4 overflow-y-auto shadow-lg">
           <h2 className="text-lg font-semibold mb-4">Book Recommendations</h2>
-          {isFetchingRecommendations ? (
-            <p>Loading recommendations...</p>
-          ) : (
-            <BookCarousel recommendations={bookRecommendations} />
-          )}
+          <BookCarousel recommendations={bookRecommendations} />
         </aside>
       </main>
       <div ref={chatEndRef} />
